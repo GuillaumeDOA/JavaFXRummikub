@@ -1,10 +1,10 @@
 package rummikub;
 
-public class Steentje {
+public class Steentje implements Comparable<Steentje> {
     private int waarde;
-    private String kleur;
+    private SteenColor kleur;
 
-    public Steentje(int waarde, String kleur) {
+    public Steentje(int waarde, SteenColor kleur) {
         this.waarde = waarde;
         this.kleur = kleur;
     }
@@ -13,12 +13,18 @@ public class Steentje {
         return waarde;
     }
 
-    public String getColor() {
+    public SteenColor getColor() {
         return kleur;
     }
 
     @Override
     public String toString() {
-        return kleur + waarde + ConsoleColor.RESET;
+        return kleur.toString() + waarde + SteenColor.RESET;
+    }
+
+    @Override
+    public int compareTo(Steentje anderSteen) {
+        return this.getWaarde()-anderSteen.getWaarde();
     }
 }
+

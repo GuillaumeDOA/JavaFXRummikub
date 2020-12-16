@@ -1,47 +1,39 @@
 package rummikub;
 
-import java.util.LinkedList;
-import java.util.List;
+
+import java.util.Collections;
 
 public class Pot {
 
-    //public Hand potHand = new Hand();
-    private List<Steentje> hand = new LinkedList<>();
-    public int count;
+    private Hand Zak;
 
-    public Pot(){
+
+    public Pot() {
+        Zak = new Hand();
         for (int i = 1; i < 14; i++) {
-            hand.add(new Steentje(i,ConsoleColor.RED ));
-            hand.add(new Steentje(i,ConsoleColor.RED ));
+
+            Zak.getHand().add(new Steentje(i, SteenColor.RED));
+            Zak.getHand().add(new Steentje(i, SteenColor.RED));
         }
         for (int i = 1; i < 14; i++) {
-            hand.add(new Steentje(i,ConsoleColor.BLACK ));
-            hand.add(new Steentje(i,ConsoleColor.BLACK ));
+            Zak.getHand().add(new Steentje(i, SteenColor.BLACK));
+            Zak.getHand().add(new Steentje(i, SteenColor.BLACK));
         }
         for (int i = 1; i < 14; i++) {
-            hand.add(new Steentje(i,ConsoleColor.BLUE ));
-            hand.add(new Steentje(i,ConsoleColor.BLUE ));
+            Zak.getHand().add(new Steentje(i, SteenColor.BLUE));
+            Zak.getHand().add(new Steentje(i, SteenColor.BLUE));
         }
         for (int i = 1; i < 14; i++) {
-            hand.add(new Steentje(i,ConsoleColor.YELLOW ));
-            hand.add(new Steentje(i,ConsoleColor.YELLOW ));
+            Zak.getHand().add(new Steentje(i, SteenColor.YELLOW));
+            Zak.getHand().add(new Steentje(i, SteenColor.YELLOW));
         }
-        hand.add(new Steentje(0,ConsoleColor.RED));
-        hand.add(new Steentje(0,ConsoleColor.BLACK));
-        count = hand.size();
+        Zak.getHand().add(new Steentje(0, SteenColor.RED));
+        Zak.getHand().add(new Steentje(0, SteenColor.BLACK));
+        Collections.shuffle(Zak.getHand());
     }
 
-
-    public void PrintHand(){
-        for (Steentje steentje : hand) {
-            System.out.print(steentje+ " ");
-        }
-        System.out.println("");
+    public void neemSteentje(Speler sp) {
+        sp.addSteentje(Zak.getHand().remove(0));
     }
-
-    public void removeSteen(int i){
-        hand.remove(i);
-    }
-
 
 }

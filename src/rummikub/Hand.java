@@ -1,28 +1,24 @@
 package rummikub;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Hand {
 
-    private List<Steentje> hand = new LinkedList<>();
+    private List<Steentje> hand;
 
-    public Hand() {
+    public List<Steentje> getHand() {
+        return hand;
     }
 
-    public void PrintHand(){
+    public Hand() {
+        hand = new LinkedList<>();
+        Collections.shuffle(hand);
+    }
+
+    public void PrintHand() {
         for (Steentje steentje : hand) {
             System.out.print(steentje + " ");
         }
-    }
-
-    public void AddSteentje(Steentje steen){
-        hand.add(steen);
-    }
-
-    public Steentje NeemSteentje(){
-        Steentje steen = hand.get(new Random().nextInt());
-        return steen;
+        System.out.println("");
     }
 }
