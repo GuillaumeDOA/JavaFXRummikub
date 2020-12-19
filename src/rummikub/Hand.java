@@ -12,7 +12,6 @@ public class Hand {
 
     public Hand() {
         hand = new LinkedList<>();
-        Collections.shuffle(hand);
     }
 
     public void PrintHand() {
@@ -20,5 +19,9 @@ public class Hand {
             System.out.print(steentje + " ");
         }
         System.out.println("");
+    }
+
+    public int getSize() {
+        return hand.size();
     }
 }

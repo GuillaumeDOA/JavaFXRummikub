@@ -2,10 +2,14 @@ package rummikub;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Speler {
 
     private Hand bord;
+    private String naam;
+    private boolean afgelegd;
 
     public Speler() {
         bord = new Hand();
@@ -49,4 +53,15 @@ public class Speler {
         bord.getHand().add(steen);
     }
 
+    public Steentje legSteen(int index) {
+        return bord.getHand().remove(index);
+    }
+
+    public List<Steentje> legSteen(int start, int einde){
+        List<Steentje> list = new LinkedList<>();
+        for (int i = --start; i <einde ; i++) {
+            list.add(bord.getHand().remove(start));
+        }
+        return list;
+    }
 }

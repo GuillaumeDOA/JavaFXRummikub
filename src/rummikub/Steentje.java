@@ -24,7 +24,7 @@ public class Steentje implements Comparable<Steentje> {
 
     @Override
     public int compareTo(Steentje anderSteen) {
-        return this.getWaarde()-anderSteen.getWaarde();
+        return this.getWaarde() - anderSteen.getWaarde();
     }
 }
 
