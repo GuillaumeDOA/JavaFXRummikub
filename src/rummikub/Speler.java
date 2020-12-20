@@ -15,8 +15,8 @@ public class Speler {
         bord = new Hand();
     }
 
-    public void PrintHand() {
-        bord.PrintHand();
+    public void printHand() {
+        bord.printHand();
     }
 
     public void SorteerKleur() {
@@ -54,7 +54,7 @@ public class Speler {
     }
 
     public Steentje legSteen(int index) {
-        return bord.getHand().remove(index);
+        return bord.getHand().remove(--index);
     }
 
     public List<Steentje> legSteen(int start, int einde){
@@ -63,5 +63,8 @@ public class Speler {
             list.add(bord.getHand().remove(start));
         }
         return list;
+    }
+    public int getSize(){
+        return bord.getSize();
     }
 }

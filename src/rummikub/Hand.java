@@ -14,7 +14,7 @@ public class Hand {
         hand = new LinkedList<>();
     }
 
-    public void PrintHand() {
+    public void printHand() {
         for (Steentje steentje : hand) {
             System.out.print(steentje + " ");
         }

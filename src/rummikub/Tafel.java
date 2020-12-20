@@ -17,9 +17,9 @@ public class Tafel {
     public void printTafel() {
         if (gelegedeRijen.size() == 0) System.out.println("Nog geen Stenen op tafel");
         else {
-            int i=1;
+            int i = 1;
             for (List<Steentje> steentjes : gelegedeRijen) {
-                System.out.print(i +") ");
+                System.out.print(i + ") ");
                 for (Steentje steentje : steentjes) {
                     System.out.print(steentje + " ");
                 }
@@ -29,10 +29,11 @@ public class Tafel {
         }
     }
 
-    public void addSteen(Steentje steen,int rij){
+    public void addSteen(Steentje steen, int rij) {
         gelegedeRijen.get(--rij).add(steen);
     }
-    public void addSteen(List<Steentje> stenen){
+
+    public void addSteen(List<Steentje> stenen) {
         gelegedeRijen.add(stenen);
     }
 }
