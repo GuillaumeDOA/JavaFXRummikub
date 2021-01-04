@@ -13,10 +13,23 @@ public class Speler {
 
     public Speler() {
         bord = new Hand();
+        afgelegd=false;
     }
 
     public void printHand() {
         bord.printHand();
+    }
+
+    public Hand getBord() {
+        return bord;
+    }
+
+    public boolean getAfgelegd() {
+        return afgelegd;
+    }
+
+    public void setAfgelegd(boolean afgelegd) {
+        this.afgelegd = afgelegd;
     }
 
     public void SorteerKleur() {

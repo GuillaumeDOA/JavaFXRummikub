@@ -28,8 +28,8 @@ public class Pot {
             Zak.getHand().add(new Steentje(i, SteenColor.YELLOW));
             Zak.getHand().add(new Steentje(i, SteenColor.YELLOW));
         }
-        Zak.getHand().add(new Steentje(0, SteenColor.RED));
-        Zak.getHand().add(new Steentje(0, SteenColor.BLACK));
+        Zak.getHand().add(new Steentje(SteenColor.RED,true));
+        Zak.getHand().add(new Steentje(SteenColor.BLACK,true));
         Collections.shuffle(Zak.getHand());
     }
 

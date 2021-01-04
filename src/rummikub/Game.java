@@ -34,27 +34,47 @@ public class Game {
             System.out.println("\nDe beurt is aan Speler " + (huideSpeler + 1));
             spelers[huideSpeler].printHand();
             System.out.println("Wat wil je doen? \n\t1) Steentje nemen\n\t2) Steentjes leggen\n\t3) Sorteer Steentjes op kleur\n\t4) Sorteer Steentjes op getal");
-             int speelKeuze = kb.nextInt();
-             switch (speelKeuze){
-                 case 1:
-                     pot.neemSteentje(spelers[huideSpeler]);
-                     spelers[huideSpeler].printHand();
-                     volgendeSpeler();
-                     break;
-                 case 2:
-                     legStenen(spelers[huideSpeler]);
-                     volgendeSpeler();
-                     break;
-                 case 3:
-                     spelers[huideSpeler].SorteerKleur();
-                     spelers[huideSpeler].printHand();
-                     break;
-                 case 4:
-                     spelers[huideSpeler].SorteerGetal();
-                     spelers[huideSpeler].printHand();
-                     break;
-                 default:
-             }
+            int speelKeuze = kb.nextInt();
+            switch (speelKeuze) {
+                case 1:
+                    pot.neemSteentje(spelers[huideSpeler]);
+                    spelers[huideSpeler].printHand();
+                    volgendeSpeler();
+                    break;
+                case 2:
+                    legStenen(spelers[huideSpeler]);
+                    if (!spelers[huideSpeler].getAfgelegd()) {
+                        if (tafel.check30()) {
+                            if (tafel.checkTafel()) {
+                                spelers[huideSpeler].setAfgelegd(true);
+                                volgendeSpeler();
+                            } else {
+                                System.out.println("Geen geldige rij");
+                                tafel.returnSteentjes(spelers[huideSpeler]);
+                            }
+                        } else {
+                            System.out.println("Rij moet minstens 30 zijn om af te leggen");
+                            tafel.returnSteentjes(spelers[huideSpeler]);
+                        }
+                    } else {
+                        if (tafel.checkTafel()) {
+                            volgendeSpeler();
+                        } else {
+                            System.out.println("Geen geldige rij");
+                            tafel.returnSteentjes(spelers[huideSpeler]);
+                        }
+                    }
+
+                    break;
+                case 3:
+                    spelers[huideSpeler].SorteerKleur();
+                    break;
+                case 4:
+                    spelers[huideSpeler].SorteerGetal();
+                    break;
+                default:
+                    System.out.println("Onbekende keuze!");
+            }
         }
     }
 
@@ -70,18 +90,20 @@ public class Game {
         return false;
     }
 
-    public void legStenen(Speler sp){
-        System.out.println("\t1) Nieuwe rij leggen\n\t2) Bij een rij bij leggen");
+    public void legStenen(Speler sp) {
+        System.out.println("\t1) Nieuwe rij leggen\n\t2) Comming Soon!");
         int spelerKeuze = kb.nextInt();
-        switch (spelerKeuze){
+        switch (spelerKeuze) {
             case 1:
                 System.out.print("Van waar tot waar wil je leggen? ");
-                tafel.addSteen(sp.legSteen(kb.nextInt(),kb.nextInt()));
+                tafel.addSteen(sp.legSteen(kb.nextInt(), kb.nextInt()));
                 break;
-            case 2:
-                System.out.println("Welke steen leg je bij en bij welke rij leg je deze steen bij ");
-                tafel.addSteen(sp.legSteen(kb.nextInt()),kb.nextInt());
-                break;
+//            case 2:
+//                System.out.println("Welke steen leg je bij en bij welke rij leg je deze steen bij ");
+//                tafel.addSteen(sp.legSteen(kb.nextInt()),kb.nextInt());
+//                break;
+            default:
+                System.out.println("Onbekende keuze!");
         }
     }
 }
