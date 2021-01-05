@@ -1,7 +1,6 @@
 package rummikub;
 
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
     Pot pot;
@@ -44,7 +43,7 @@ public class Game {
                 case 2:
                     legStenen(spelers[huideSpeler]);
                     if (!spelers[huideSpeler].getAfgelegd()) {
-                        if (tafel.check30()) {
+                        if (tafel.check30Set()) {
                             if (tafel.checkTafel()) {
                                 spelers[huideSpeler].setAfgelegd(true);
                                 volgendeSpeler();
@@ -93,10 +92,20 @@ public class Game {
     public void legStenen(Speler sp) {
         System.out.println("\t1) Nieuwe rij leggen\n\t2) Comming Soon!");
         int spelerKeuze = kb.nextInt();
+        kb.nextLine();
         switch (spelerKeuze) {
             case 1:
-                System.out.print("Van waar tot waar wil je leggen? ");
-                tafel.addSteen(sp.legSteen(kb.nextInt(), kb.nextInt()));
+                System.out.print("Welke stenen wil je allemaal leggen? ");
+                String input = kb.nextLine();
+                String[] antwoorden = input.split(" ");
+                List<Steentje> stenen = new LinkedList<>();
+                for (int i = 0; i <antwoorden.length ; i++) {
+                    stenen.add(sp.legSteen(Integer.parseInt(antwoorden[i])));
+                }
+                tafel.addSteen(stenen);
+                spelers[huideSpeler].getBord().getHand().removeAll(stenen);
+
+//                tafel.addSteen(sp.legSteen(kb.nextInt(), kb.nextInt()));
                 break;
 //            case 2:
 //                System.out.println("Welke steen leg je bij en bij welke rij leg je deze steen bij ");

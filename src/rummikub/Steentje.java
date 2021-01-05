@@ -20,6 +20,14 @@ public class Steentje implements Comparable<Steentje> {
         return waarde;
     }
 
+    public void setWaarde(int waarde) {
+        this.waarde = waarde;
+    }
+
+    public boolean isJoker() {
+        return joker;
+    }
+
     public SteenColor getColor() {
         return kleur;
     }

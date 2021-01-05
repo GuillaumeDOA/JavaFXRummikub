@@ -1,16 +1,19 @@
 package rummikub;
 
+import com.sun.source.tree.LiteralTree;
+
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Tafel {
     private List<List<Steentje>> gelegedeRijen;
-    private List<Steentje> tempRij;
+    private List<Steentje> tempRijen;
 
     public Tafel() {
         gelegedeRijen = new LinkedList<>();
-        tempRij = new LinkedList<>();
+        tempRijen = new LinkedList<>();
     }
 
     public List<List<Steentje>> getGelegedeRijen() {
@@ -56,40 +59,43 @@ public class Tafel {
         }
         return true;
     }
-
-//    public boolean CheckOpeenVolging(){
-//        int counter=0;
-//        for (List<Steentje> steentjes : gelegedeRijen) {
-//            for (Iterator<Steentje> iterator = steentjes.iterator(); iterator.hasNext(); ) {
-//                Steentje next =  iterator.next();
-//
-//
-//            }
-//        }
-//        return false;
-//    }
-
-
+    
     public boolean checkGetallenSet() {
-//        for (List<Steentje> steentjes : gelegedeRijen) {
-//            for (int i = 1; i < steentjes.size(); i++) {
-//                if (steentjes.get(i).getWaarde() - steentjes.get(i - 1).getWaarde() != 0)
-//                    return false;
-//            }
-//        }
-        List<SteenColor> kleurenList = new LinkedList<>();
-        for (List<Steentje> steentjes : gelegedeRijen) {
-            for (int i=1;i<steentjes.size();i++) {
-                if (!kleurenList.contains(steentjes.get(i-1).getColor())) {
-                    kleurenList.add(steentjes.get(i-1).getColor());
-                } else return true;
 
-                if(steentjes.get(i-1).getWaarde()!=steentjes.get(i).getWaarde()){
-                    return true;
+        for (List<Steentje> steentjes : gelegedeRijen) {
+            List<SteenColor> kleurenList = new LinkedList<>();
+            boolean bevatJoker = false;
+            for (Steentje steentje : steentjes) {
+                if (steentje.isJoker()) {
+                    bevatJoker = true;
+                    continue;
+                }
+
+                if (!kleurenList.contains(steentje.getColor())) {
+                    kleurenList.add(steentje.getColor());
+                } else return false;
+            }
+
+            double totaal = 0;
+            for (Steentje steentje : steentjes) {
+                totaal += steentje.getWaarde();
+            }
+
+            if (bevatJoker) {
+                int index = 0;
+                if (steentjes.get(0).getWaarde() == 0)
+                    index = 1;
+                if (totaal != steentjes.get(index).getWaarde() * (steentjes.size() - 1)) {
+                    return false;
+                }
+            } else {
+                if (totaal != steentjes.get(0).getWaarde() * steentjes.size()) {
+                    return false;
                 }
             }
+
         }
-        return false;
+        return true;
     }
 
     public boolean checkLengte() {
@@ -99,14 +105,36 @@ public class Tafel {
         return true;
     }
 
-    public boolean check30() {
-        int som = 0;
-        List<Steentje> list = gelegedeRijen.get(gelegedeRijen.size() - 1);
-        for (int i = 0; i < list.size(); i++) {
-            som += list.get(i).getWaarde();
+    public boolean check30Set() {
+
+        for (List<Steentje> steentjes : gelegedeRijen) {
+            double totaal = 0;
+
+            for (Steentje steentje : steentjes) {
+                if(steentje.isJoker()){
+                    int sum=0;
+                    for (Steentje steentje1 : steentjes) {
+                        sum+=steentje1.getWaarde();
+                    }
+                    sum/=steentjes.size()-1;
+                    totaal+=sum;
+                }
+
+                totaal += steentje.getWaarde();
+            }
+
+            if (totaal < 30) {
+                return false;
+            }
         }
-        if (som >= 30) return true;
-        else return false;
+
+        return true;
+    }
+
+    public boolean check30Opeenvolging() {
+
+
+        return false;
     }
 
 

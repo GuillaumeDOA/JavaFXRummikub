@@ -67,7 +67,7 @@ public class Speler {
     }
 
     public Steentje legSteen(int index) {
-        return bord.getHand().remove(--index);
+        return bord.getHand().get(--index);
     }
 
     public List<Steentje> legSteen(int start, int einde){
@@ -77,6 +77,11 @@ public class Speler {
         }
         return list;
     }
+
+    public List<Steentje> legSteen(List<Steentje> rij){
+        return rij;
+    }
+
     public int getSize(){
         return bord.getSize();
     }
