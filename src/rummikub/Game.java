@@ -33,7 +33,16 @@ public class Game {
             System.out.println("\nDe beurt is aan Speler " + (huideSpeler + 1));
             spelers[huideSpeler].printHand();
             System.out.println("Wat wil je doen? \n\t1) Steentje nemen\n\t2) Steentjes leggen\n\t3) Sorteer Steentjes op kleur\n\t4) Sorteer Steentjes op getal");
-            int speelKeuze = kb.nextInt();
+            int speelKeuze = 0;
+            try {
+                speelKeuze = kb.nextInt();
+
+            } catch (InputMismatchException e) {
+                System.out.println("Geen geldige keuze");
+            } finally {
+                kb.nextLine();
+            }
+
             switch (speelKeuze) {
                 case 1:
                     pot.neemSteentje(spelers[huideSpeler]);
@@ -41,29 +50,7 @@ public class Game {
                     volgendeSpeler();
                     break;
                 case 2:
-                    legStenen(spelers[huideSpeler]);
-                    if (!spelers[huideSpeler].getAfgelegd()) {
-                        if (tafel.check30Set()) {
-                            if (tafel.checkTafel()) {
-                                spelers[huideSpeler].setAfgelegd(true);
-                                volgendeSpeler();
-                            } else {
-                                System.out.println("Geen geldige rij");
-                                tafel.returnSteentjes(spelers[huideSpeler]);
-                            }
-                        } else {
-                            System.out.println("Rij moet minstens 30 zijn om af te leggen");
-                            tafel.returnSteentjes(spelers[huideSpeler]);
-                        }
-                    } else {
-                        if (tafel.checkTafel()) {
-                            volgendeSpeler();
-                        } else {
-                            System.out.println("Geen geldige rij");
-                            tafel.returnSteentjes(spelers[huideSpeler]);
-                        }
-                    }
-
+                    steentjesLeggenLogica();
                     break;
                 case 3:
                     spelers[huideSpeler].SorteerKleur();
@@ -72,8 +59,33 @@ public class Game {
                     spelers[huideSpeler].SorteerGetal();
                     break;
                 default:
-                    System.out.println("Onbekende keuze!");
+                    System.out.println("Kies een van de onderstaande keuzes.");
             }
+        }
+    }
+
+    private void steentjesLeggenLogica() {
+        legStenen(spelers[huideSpeler]);
+        if (tafel.checkTafel()) {
+            if (!spelers[huideSpeler].getAfgelegd()) {
+                if (tafel.check30()) {
+                    spelers[huideSpeler].setAfgelegd(true);
+                    volgendeSpeler();
+                } else {
+                    System.out.println("Rij moet minstens 30 zijn om af te leggen");
+                    tafel.returnSteentjes(spelers[huideSpeler]);
+                }
+            } else {
+                if (tafel.checkTafel()) {
+                    volgendeSpeler();
+                } else {
+                    System.out.println("Ongeldige Rij!");
+                    tafel.returnSteentjes(spelers[huideSpeler]);
+                }
+            }
+        } else {
+            System.out.println("ongeldige rij!");
+            tafel.returnSteentjes(spelers[huideSpeler]);
         }
     }
 
@@ -89,30 +101,49 @@ public class Game {
         return false;
     }
 
+    //TODO returnsteentjes fixen voor 1 steen leggen
     public void legStenen(Speler sp) {
-        System.out.println("\t1) Nieuwe rij leggen\n\t2) Comming Soon!");
-        int spelerKeuze = kb.nextInt();
+        System.out.println("\t1) Nieuwe rij leggen\n\t2) Bij een rij bijleggen!");
+        int spelerKeuze = 0;
+        try {
+            spelerKeuze = kb.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Geen geldige keuze");
+        }
         kb.nextLine();
         switch (spelerKeuze) {
             case 1:
                 System.out.print("Welke stenen wil je allemaal leggen? ");
+
                 String input = kb.nextLine();
-                String[] antwoorden = input.split(" ");
-                List<Steentje> stenen = new LinkedList<>();
-                for (int i = 0; i <antwoorden.length ; i++) {
-                    stenen.add(sp.legSteen(Integer.parseInt(antwoorden[i])));
+                try {
+                    String[] antwoorden = input.split(" ");
+                    List<Steentje> stenen = new LinkedList<>();
+                    for (int i = 0; i < antwoorden.length; i++) {
+                        stenen.add(sp.legSteen(Integer.parseInt(antwoorden[i])));
+                    }
+                    tafel.addSteen(stenen);
+                    spelers[huideSpeler].getBord().getHand().removeAll(stenen);
+                } catch (Exception e) {
+                    System.out.println("Geen geldige steentjes");
                 }
-                tafel.addSteen(stenen);
-                spelers[huideSpeler].getBord().getHand().removeAll(stenen);
+
 
 //                tafel.addSteen(sp.legSteen(kb.nextInt(), kb.nextInt()));
                 break;
-//            case 2:
-//                System.out.println("Welke steen leg je bij en bij welke rij leg je deze steen bij ");
-//                tafel.addSteen(sp.legSteen(kb.nextInt()),kb.nextInt());
-//                break;
+            case 2:
+                System.out.println("Welke steen wil je leggen?");
+                int steenKeuze = kb.nextInt();
+                System.out.println("Bij welke rij wil je deze leggen?");
+                int rijKeuze = kb.nextInt();
+                System.out.println("Wil je deze vooraan(v) of achteraan(a) leggen?");
+                char plaatsKeuze = kb.next().charAt(0);
+                tafel.addSteen(sp.legSteen(steenKeuze),rijKeuze,plaatsKeuze);
+                break;
+                
             default:
-                System.out.println("Onbekende keuze!");
+                System.out.println("Geef een van onderstaande keuzes in.");
+                legStenen(spelers[huideSpeler]);
         }
     }
 }

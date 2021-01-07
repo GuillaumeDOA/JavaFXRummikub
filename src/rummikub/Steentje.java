@@ -34,7 +34,7 @@ public class Steentje implements Comparable<Steentje> {
 
     @Override
     public String toString() {
-        return kleur.toString() + waarde + SteenColor.RESET;
+        return kleur.toString() + (joker ? "0" : waarde) + SteenColor.RESET;
     }
 
     @Override
